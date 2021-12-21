@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { User } from "../model/user";
 import { UserModel } from "../model/user.model";
+import bcrypt from 'bcryptjs';
 
 const findUsers = async (req: Request, res: Response) => {
   // const limit = req.query.limit || null
@@ -18,7 +19,8 @@ const createUser = async (req: Request, res: Response) => {
   try {
     // const newUser = new UserModel(req.body)
     const { username, password, age, isAdmin, role } = req.body;
-    let body: User = { username, password, age, isAdmin, role };
+    const hashedPassword = bcrypt.hashSync(password)
+    let body: User = { username, password : hashedPassword, age, isAdmin, role };
     const newUser = UserModel.createUser(body);
     const createdUser = await newUser.save();
     return res.json(createdUser).status(201);

@@ -19,7 +19,8 @@ const userSchema = new Schema({
         required : true,
         validate : {
             validator : (v : string) => {
-                return v.includes('!')
+                // return v.includes('!')
+                return true
             },
             message : (props: ValidatorProps) => {
                 return `${props.value} does not contain any special character`
